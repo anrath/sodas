@@ -8,19 +8,19 @@ datasource db {
 }
 
 model User {
-  id        String   @id
-  email     String   @unique
-  password  String
-  firstName String
-  lastName  String
-  fines     Float    @default(0)
-  role      Role     @default(BORROWER)
-  Book      Book[]
-  Review    Review[]
+  id           String   @id @default(uuid())
+  email        String   @unique
+  password     String
+  firstName    String
+  lastName     String
+  fines        Float    @default(0)
+  role         Role     @default(BORROWER)
+  booksCurrent Book[]
+  Review       Review[]
 }
 
 model Book {
-  id          String   @id
+  id          String   @id @default(uuid())
   isbn        String
   title       String
   author      String
@@ -34,17 +34,23 @@ model Book {
   purchaseUrl String
   userId      String?
   User        User?    @relation(fields: [userId], references: [id])
-  Review      Review[]
+  reviews     Review[]
 }
 
 model Review {
-  id     String @id
+  id     String @id @default(uuid())
   rating Int
   text   String
   bookId String
   userId String
-  Book   Book   @relation(fields: [bookId], references: [id])
-  User   User   @relation(fields: [userId], references: [id])
+  book   Book   @relation(fields: [bookId], references: [id])
+  user   User   @relation(fields: [userId], references: [id])
+}
+
+enum Role {
+  BORROWER
+  LIBRARIAN
+  ADMINISTRATOR
 }
 
 enum Format {
@@ -52,10 +58,4 @@ enum Format {
   PAPERBACK
   AUDIO
   DIGITAL
-}
-
-enum Role {
-  BORROWER
-  LIBRARIAN
-  ADMINISTRATOR
 }
