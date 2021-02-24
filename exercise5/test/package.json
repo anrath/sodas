@@ -1,0 +1,11 @@
+{
+    "scripts": {
+        "start": "node 3a_tester.js",
+        "test": "npm run start"
+    },
+    "dependencies": {
+        "chalk": "^4.1.0",
+        "node-fetch": "^2.6.1",
+        "progress": "^2.0.3"
+    }
+}
